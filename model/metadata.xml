@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<edmx:Edmx Version="1.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:DataServices
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="2.0">
+        <Schema Namespace="p598692trial.helloworld.sample.services.samples"
+            xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+            xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="SamplesType">
+                <Key>
+                    <PropertyRef Name="id" />
+                </Key>
+                <Property Name="id" Type="Edm.String" Nullable="false" MaxLength="10" />
+                <Property Name="name" Type="Edm.String" Nullable="false" MaxLength="30" />
+            </EntityType>
+            <EntityContainer Name="samples" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="Samples" EntityType="p598692trial.helloworld.sample.services.samples.SamplesType" />
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
