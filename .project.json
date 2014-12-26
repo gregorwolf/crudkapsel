@@ -20,7 +20,7 @@
   },
   "hybrid": {
     "appname": "crudkapsel",
-    "appid": "com.computerservice-wolf.crudkapsel",
+    "appid": "com.csw.crudkapsel",
     "appdesc": "CRUD Capsel",
     "appversion": "0.0.1",
     "server": "",
@@ -121,11 +121,11 @@
       },
       "kapsel": {
         "logon": {
-          "selected": false,
+          "selected": true,
           "registry": "com.sap.mp.cordova.plugins.logon"
         },
         "appupdate": {
-          "selected": false,
+          "selected": true,
           "registry": "com.sap.mp.cordova.plugins.appupdate"
         },
         "logger": {
