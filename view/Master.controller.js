@@ -109,6 +109,15 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Master", {
 		// source itself (will depend on the device-dependent mode).
 		this.showDetail(oEvent.getParameter("listItem") || oEvent.getSource());
 	},
+	
+	onAddEntry: function(oEvent) {
+		this.getRouter().myNavToWithoutHash({ 
+			currentView : this.getView(),
+			targetViewName : "crudkapsel.view.AddEntry",
+			targetViewType : "XML",
+			transition : "slide"
+		});
+	},
 
 	showDetail : function(oItem) {
 		// If we're on a phone, include nav in history; if not, don't.

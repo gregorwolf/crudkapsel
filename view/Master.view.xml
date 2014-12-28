@@ -48,6 +48,12 @@
 		</content>
 		<footer>
 			<Toolbar>
+				<ToolbarSpacer/>
+				<Button
+					icon="sap-icon://add"
+					tooltip="{i18n>addEntry}"
+					press="onAddEntry" />
+			
 			</Toolbar>
 		</footer>
 	</Page>
