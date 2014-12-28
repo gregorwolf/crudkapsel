@@ -10,17 +10,10 @@
 		title="{i18n>detailTitle}">
 		<content>
 			<ObjectHeader
-				 
 					title="{name}"
-				
-				 
 					number="{id}"
-				
-				
 					numberUnit=""
 				>
-				
-				
 			</ObjectHeader>
 			<IconTabBar
 				select="onDetailSelect"
@@ -40,6 +33,11 @@
 		</content>
 		<footer>
 			<Toolbar>
+				<ToolbarSpacer/>
+				<Button
+					icon="sap-icon://edit"
+					tooltip="{i18n>editEntry}"
+					press="onEditEntry" />
 			</Toolbar>
 		</footer>
 	</Page>
