@@ -23,7 +23,7 @@
     "appid": "com.csw.crudkapsel",
     "appdesc": "CRUD Capsel",
     "appversion": "0.0.1",
-    "server": "hcpmsadmin-p598692trial.dispatcher.hanatrial.ondemand.com",
+    "server": "smp-p598692trial.hanatrial.ondemand.com",
     "port": "443",
     "platform": {
       "ios": {
