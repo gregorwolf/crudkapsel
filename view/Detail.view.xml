@@ -28,14 +28,14 @@
 				<Button 
 				    id="idButtonSave"
 				    icon="sap-icon://save"   
-				    text="{i18n>addEntryButtonSave}" 
+				    tooltip="{i18n>editEntryButtonSave}" 
 				    type="Accept"
 				    visible="false" 
 				    press="onFooterBarButtonPress" />
 				<Button 
 				    id="idButtonCancel"
 				    icon="sap-icon://sys-cancel" 
-				    text="{i18n>addEntryButtonCancel}" 
+				    tooltip="{i18n>editEntryButtonCancel}" 
 				    type="Reject"
 				    visible="false" 
 				    press="onFooterBarButtonPress" />

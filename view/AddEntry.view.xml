@@ -38,8 +38,18 @@
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>
-				<Button text="{i18n>addEntryButtonSave}" type="Emphasized" press="onSave" />
-				<Button text="{i18n>addEntryButtonCancel}" press="onCancel" />
+				<Button 
+				    id="idButtonSave"
+				    icon="sap-icon://save"   
+				    tooltip="{i18n>addEntryButtonSave}" 
+				    type="Accept"
+				    press="onSave" />
+				<Button 
+				    id="idButtonCancel"
+				    icon="sap-icon://sys-cancel" 
+				    tooltip="{i18n>addEntryButtonCancel}" 
+				    type="Reject"
+				    press="onCancel" />
 			</Toolbar>
 		</footer>
 	</Page>
