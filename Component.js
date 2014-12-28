@@ -141,6 +141,7 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
 	},
 	
 	_setModel : function (oModel) {
+	    oModel.setDefaultBindingMode("TwoWay");
 	    this.setModel(oModel);
 
 		// set device model

@@ -1,8 +1,23 @@
 jQuery.sap.require("crudkapsel.util.Formatter");
 jQuery.sap.require("crudkapsel.util.Controller");
+jQuery.sap.require("sap.m.MessageBox");
 
 crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
-
+    _fragments: {},
+    
+    _getFormFragment: function (sName) {
+        if (!this._fragments[sName]) {
+            this._fragments[sName] = sap.ui.xmlfragment(sName, "crudkapsel.view." + sName, this);
+        }
+        return this._fragments[sName];
+    },
+    
+    onExit : function () {
+        jQuery.each(this._fragments, function (i, oFrag) {
+            oFrag.destroy();
+        });
+    },
+  
 	onInit : function() {
 		this.oInitialLoadFinishedDeferred = jQuery.Deferred();
 
@@ -15,7 +30,6 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
 		}
 
 		this.getRouter().attachRouteMatched(this.onRouteMatched, this);
-
 	},
 
 	onMasterLoaded :  function (sChannel, sEvent, oData) {
@@ -30,8 +44,6 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
 		var oParameters = oEvent.getParameters();
 
 		jQuery.when(this.oInitialLoadFinishedDeferred).then(jQuery.proxy(function () {
-			var oView = this.getView();
-
 			// when detail navigation occurs, update the binding context
 			if (oParameters.name !== "detail") { 
 				return;
@@ -40,27 +52,17 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
 			var sEntityPath = "/" + oParameters.arguments.entity;
 			this.bindView(sEntityPath);
 
-			var oIconTabBar = oView.byId("idIconTabBar");
-			oIconTabBar.getItems().forEach(function(oItem) {
-				oItem.bindElement(crudkapsel.util.Formatter.uppercaseFirstChar(oItem.getKey()));
-			});
-
-			// Which tab?
-			var sTabKey = oParameters.arguments.tab;
-			this.getEventBus().publish("Detail", "TabChanged", { sTabKey : sTabKey });
-
-			if (oIconTabBar.getSelectedKey() !== sTabKey) {
-				oIconTabBar.setSelectedKey(sTabKey);
-			}
 		}, this));
 
 	},
 
 	bindView : function (sEntityPath) {
 		var oView = this.getView();
-		oView.bindElement(sEntityPath);
+        // Set the initial form to be the change one
+        var oForm = this._getFormFragment("DetailDisplay");
+        oView.byId("idFormContainer").insertContent(oForm);
 
-		
+		oView.bindElement(sEntityPath);
 
 		//Check if the data is already on the client
 		if(!oView.getModel().getData(sEntityPath)) {
@@ -79,7 +81,6 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
 		} else {
 			this.fireDetailChanged(sEntityPath);
 		}
-
 	},
 
 	showEmptyView : function () {
@@ -108,6 +109,63 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
 			entity : oEvent.getSource().getBindingContext().getPath().slice(1),
 			tab: oEvent.getParameter("selectedKey")
 		}, true);
-	}
+	},
 
+	onFooterBarButtonPress: function(oEvent) {
+        var oModel = this.getView().getModel();
+	    var oView = this.getView();
+        var sEntityPath = oView.mBoundObjects.undefined.sBindingPath;
+	    var buttonId = oEvent.getSource().getId();
+	    // Get the pure Button ID
+	    var fields = buttonId.split('--');
+	    buttonId = fields[1];
+	    switch(buttonId) {
+            case 'idButtonDelete':
+                // Implement Pop-up to confirm
+                var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
+                sap.m.MessageBox.show(
+                  "Confirmation", {
+                    icon: sap.m.MessageBox.Icon.QUESTION,
+                    title: "Should the entry be deleted?",
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    onClose : function(oAction) { 
+                        if ( oAction === sap.m.MessageBox.Action.OK ) {
+                            oModel.remove(sEntityPath, null, function() {
+    				            sap.m.MessageToast.show("Delete successful");
+                    		}, function() {
+                    		    sap.m.MessageToast.show("Delete failed");
+                    		});
+                        }
+                    },
+                    styleClass: bCompact? "sapUiSizeCompact" : ""
+                  }
+                );
+                break;
+            case 'idButtonSave':
+		        var oData = oModel.getData(sEntityPath);
+				oModel.update(sEntityPath, oData, null, function() {
+				    sap.m.MessageToast.show("Entry updated");
+				}, function() {
+					sap.m.MessageToast.show("Update failed");
+				});
+		        
+                break;
+            default:
+                break;
+	    }
+        // Derive action from the button pressed
+        var bEditAction = /idButtonEdit$/.test(buttonId);
+        
+        // Show the appropriate action buttons
+        this.getView().byId("idButtonEdit").setVisible(! bEditAction);
+        this.getView().byId("idButtonDelete").setVisible(! bEditAction);
+        this.getView().byId("idButtonSave").setVisible(bEditAction);
+        this.getView().byId("idButtonCancel").setVisible(bEditAction);
+        
+        // Set the right form type
+        var oForm = this._getFormFragment(bEditAction ? "DetailChange" : "DetailDisplay");
+        var oContainer = this.getView().byId("idFormContainer");
+        oContainer.removeContent(0);
+        oContainer.insertContent(oForm);	    
+	}
 });

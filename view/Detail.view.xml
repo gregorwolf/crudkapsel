@@ -1,44 +1,45 @@
 <mvc:View
-	controllerName="crudkapsel.view.Detail"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:core="sap.ui.core"
-	xmlns="sap.m">
-	<Page
-		showNavButton="{device>/isPhone}"
-		navButtonPress="onNavBack"
-		class="sapUiFioriObjectPage"
-		title="{i18n>detailTitle}">
-		<content>
-			<ObjectHeader
-					title="{name}"
-					number="{id}"
-					numberUnit=""
-				>
-			</ObjectHeader>
-			<IconTabBar
-				select="onDetailSelect"
-				id="idIconTabBar">
-				<items>
-					<IconTabFilter
-						key=""
-						text=""
-						icon="sap-icon://hint">
-						<!--key="Detail" -->
-						<content>
-							<core:Fragment fragmentName="crudkapsel.view.DetailInfoForm" type="XML" />
-						</content>
-					</IconTabFilter>
-				</items>
-			</IconTabBar>
-		</content>
+    height="100%"
+    controllerName="crudkapsel.view.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page
+        id="idFormContainer"
+        showNavButton="{device>/isPhone}"
+    	navButtonPress="onNavBack"
+    	class="sapUiFioriObjectPage"
+    	title="{i18n>detailTitle}">
 		<footer>
 			<Toolbar>
-				<ToolbarSpacer/>
+			    <ToolbarSpacer/>
 				<Button
+				    id="idButtonEdit"
 					icon="sap-icon://edit"
+					type="Accept"
 					tooltip="{i18n>editEntry}"
-					press="onEditEntry" />
-			</Toolbar>
+					press="onFooterBarButtonPress" />
+				<Button
+				    id="idButtonDelete"
+					icon="sap-icon://delete"
+					tooltip="{i18n>deleteEntry}"
+					type="Reject"
+					press="onFooterBarButtonPress" />
+				<Button 
+				    id="idButtonSave"
+				    icon="sap-icon://save"   
+				    text="{i18n>addEntryButtonSave}" 
+				    type="Accept"
+				    visible="false" 
+				    press="onFooterBarButtonPress" />
+				<Button 
+				    id="idButtonCancel"
+				    icon="sap-icon://sys-cancel" 
+				    text="{i18n>addEntryButtonCancel}" 
+				    type="Reject"
+				    visible="false" 
+				    press="onFooterBarButtonPress" />
+				</Toolbar>
 		</footer>
 	</Page>
 </mvc:View>
