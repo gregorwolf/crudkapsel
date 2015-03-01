@@ -132,7 +132,7 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
 				var uHeader = {"Authorization":auth};
 		        oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, true, null, null, uHeader);
     	    } else {
-    	        oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, { json: true, defaultBindingMode: "TwoWay" });
+    	        oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, { json: true });
     	    }
             self._setModel(oModel);
     	}}));
@@ -145,7 +145,6 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
 	    this.setModel(oModel);
 
 		// set device model
-		/*
 		var oDeviceModel = new sap.ui.model.json.JSONModel({
 			isTouch : sap.ui.Device.support.touch,
 			isNoTouch : !sap.ui.Device.support.touch,
@@ -154,7 +153,7 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
 			listMode : sap.ui.Device.system.phone ? "None" : "SingleSelectMaster",
 			listItemType : sap.ui.Device.system.phone ? "Active" : "Inactive"
 		});
-		*/
+		/*
 		var oDeviceModel = new sap.ui.model.json.JSONModel({
 			isTouch : false,
 			isNoTouch : true,
@@ -163,6 +162,7 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
 			listMode : "None",
 			listItemType : "Active"
 		});		
+		*/
 		oDeviceModel.setDefaultBindingMode("OneWay");
 		this.setModel(oDeviceModel, "device");
 
