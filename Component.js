@@ -81,7 +81,7 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
 		if(window.cordova && appContext && !window.sap_webide_companion) {
 			var url = appContext.applicationEndpointURL + "/";
 			var oHeader = {"X-SMP-APPCID":appContext.applicationConnectionId};
-			oModel = new sap.ui.model.odata.ODataModel(url, true, appContext.registrationContext.user, appContext.registrationContext.password, oHeader);
+			oModel = new sap.ui.model.odata.v2.ODataModel(url, true, appContext.registrationContext.user, appContext.registrationContext.password, oHeader);
 			this._setModel(oModel);
 		} else {
 			var sServiceUrl = mConfig.serviceConfig.serviceUrl;
@@ -98,7 +98,7 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
             if (window.sap_webide_companion) {
                 this._openLogonDialog(sServiceUrl);
             } else {
-				oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
+				oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, true);
                 this._setModel(oModel);
             }
 		}
@@ -130,9 +130,9 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
 			if(username && password) {
 				var auth = "Basic "+btoa(username + ":" + password);
 				var uHeader = {"Authorization":auth};
-		        oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true, null, null, uHeader);
+		        oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, true, null, null, uHeader);
     	    } else {
-    	        oModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
+    	        oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, { json: true, defaultBindingMode: "TwoWay" });
     	    }
             self._setModel(oModel);
     	}}));
@@ -145,6 +145,7 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
 	    this.setModel(oModel);
 
 		// set device model
+		/*
 		var oDeviceModel = new sap.ui.model.json.JSONModel({
 			isTouch : sap.ui.Device.support.touch,
 			isNoTouch : !sap.ui.Device.support.touch,
@@ -153,6 +154,15 @@ sap.ui.core.UIComponent.extend("crudkapsel.Component", {
 			listMode : sap.ui.Device.system.phone ? "None" : "SingleSelectMaster",
 			listItemType : sap.ui.Device.system.phone ? "Active" : "Inactive"
 		});
+		*/
+		var oDeviceModel = new sap.ui.model.json.JSONModel({
+			isTouch : false,
+			isNoTouch : true,
+			isPhone : true,
+			isNoPhone : false,
+			listMode : "None",
+			listItemType : "Active"
+		});		
 		oDeviceModel.setDefaultBindingMode("OneWay");
 		this.setModel(oDeviceModel, "device");
 

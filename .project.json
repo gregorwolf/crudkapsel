@@ -27,7 +27,7 @@
     "port": "443",
     "platform": {
       "ios": {
-        "selected": false,
+        "selected": true,
         "preferences": {
           "Fullscreen": false,
           "Orientation": "default",

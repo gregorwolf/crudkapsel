@@ -134,7 +134,8 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
 						onClose: function(oAction) {
 							if (oAction === sap.m.MessageBox.Action.OK) {
 								oModel.remove(sEntityPath, null, function() {
-									sap.m.MessageToast.show("Delete successful");
+								    sap.m.MessageToast.show("Delete successful");
+								    window.history.go(-1);
 								}, function() {
 									sap.m.MessageToast.show("Delete failed");
 								});
@@ -151,6 +152,7 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
     			this.oBusyDialog.open();
 				var oData = oModel.getData(sEntityPath);
 				oModel.update(sEntityPath, oData, {
+				    merge : false,
         			success : jQuery.proxy(function(mOdata) {
         				this.oBusyDialog.close();
 					    sap.m.MessageToast.show("Entry updated");
@@ -165,19 +167,21 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
 			default:
 				break;
 		}
-		// Derive action from the button pressed
-		var bEditAction = /idButtonEdit$/.test(buttonId);
-
-		// Show the appropriate action buttons
-		this.getView().byId("idButtonEdit").setVisible(!bEditAction);
-		this.getView().byId("idButtonDelete").setVisible(!bEditAction);
-		this.getView().byId("idButtonSave").setVisible(bEditAction);
-		this.getView().byId("idButtonCancel").setVisible(bEditAction);
-
-		// Set the right form type
-		var oForm = this._getFormFragment(bEditAction ? "DetailChange" : "DetailDisplay");
-		var oContainer = this.getView().byId("idFormContainer");
-		oContainer.removeContent(0);
-		oContainer.insertContent(oForm);
+		if(buttonId !== 'idButtonDelete') {
+    		// Derive action from the button pressed
+    		var bEditAction = /idButtonEdit$/.test(buttonId);
+    
+    		// Show the appropriate action buttons
+    		this.getView().byId("idButtonEdit").setVisible(!bEditAction);
+    		this.getView().byId("idButtonDelete").setVisible(!bEditAction);
+    		this.getView().byId("idButtonSave").setVisible(bEditAction);
+    		this.getView().byId("idButtonCancel").setVisible(bEditAction);
+    
+    		// Set the right form type
+    		var oForm = this._getFormFragment(bEditAction ? "DetailChange" : "DetailDisplay");
+    		var oContainer = this.getView().byId("idFormContainer");
+    		oContainer.removeContent(0);
+    		oContainer.insertContent(oForm);
+		}
 	}
 });
