@@ -117,8 +117,7 @@ crudkapsel.util.Controller.extend("crudkapsel.view.Detail", {
 
 	onFooterBarButtonPress: function(oEvent) {
 		var oModel = this.getView().getModel();
-		var oView = this.getView();
-		var sEntityPath = oView.mBoundObjects.undefined.sBindingPath;
+		var sEntityPath = oEvent.getSource().getBindingContext().getPath();
 		var buttonId = oEvent.getSource().getId();
 		// Get the pure Button ID
 		var fields = buttonId.split('--');
